@@ -16,34 +16,28 @@ export default function Index() {
 
   return (
     <div>
-      <style>{`
-        body { font-size: 24px; font-family: arial;}
-        input, span { margin-right: 1rem; font-size: 1.5rem; }
-        input { width: 5rem; text-align: center; }
-      `}</style>
+      <Styles />
 
       <h1>{data.message}</h1>
-      <input
-        value={x}
-        onChange={(e) =>
-          setX(e.target.value == "" ? 0 : Number(e.target.value))
-        }
-        style={{ marginRight: "1rem" }}
-      />
-      <input
-        value={op}
-        onChange={(e) => setOp(e.target.value)}
-        style={{ marginRight: "1rem" }}
-      />
-      <input
-        value={y}
-        onChange={(e) =>
-          setY(e.target.value == "" ? 0 : Number(e.target.value))
-        }
-      />
+
+      <input value={x} onChange={(e) => setX(Number(e.target.value || "0"))} />
+      <input value={op} onChange={(e) => setOp(e.target.value)} />
+      <input value={y} onChange={(e) => setY(Number(e.target.value || "0"))} />
       <span>=</span>
       <span>{answer}</span>
     </div>
+  );
+}
+
+function Styles() {
+  return (
+    <style>
+      {`
+        body { font-size: 24px; font-family: arial;}
+        input, span { margin-right: 1rem; font-size: 1.5rem; }
+        input { width: 5rem; text-align: center; }
+      `}
+    </style>
   );
 }
 
