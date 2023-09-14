@@ -39,14 +39,22 @@ app.use(express.static("public", { maxAge: "1h" }));
 
 app.use(morgan("tiny"));
 
+debugger;
+
+let remixHandler = createRequestHandler({
+  build: initialBuild,
+  mode: initialBuild.mode,
+});
+function handleRequest(...args) {
+  debugger;
+  return remixHandler(...args);
+}
+
 app.all(
   "*",
   process.env.NODE_ENV === "development"
     ? createDevRequestHandler(initialBuild)
-    : createRequestHandler({
-        build: initialBuild,
-        mode: initialBuild.mode,
-      })
+    : handleRequest
 );
 
 const port = process.env.PORT || 3000;
@@ -91,6 +99,7 @@ function createDevRequestHandler(initialBuild) {
   // wrap request handler to make sure its recreated with the latest build for every request
   return async (req, res, next) => {
     try {
+      debugger;
       return createRequestHandler({
         build,
         mode: "development",

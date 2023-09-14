@@ -25,6 +25,7 @@ export default function App() {
       <body>
         <Outlet />
         <ScrollRestoration />
+        <script src="https://www.unpkg.com/lodash@4.17.21/lodash.js"></script>
         <Scripts />
         <LiveReload />
       </body>
