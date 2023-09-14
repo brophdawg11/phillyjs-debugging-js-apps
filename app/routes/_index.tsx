@@ -12,29 +12,7 @@ export function loader() {
 
 export default function Index() {
   let data = useLoaderData<typeof loader>();
-  let [x, setX] = React.useState(3);
-  let [y, setY] = React.useState(2);
-  let [op, setOp] = React.useState("+");
-  let ref = React.useRef<HTMLInputElement>(null);
-
-  // Yes I know this doesn't need to be memoized don't @ me
-  let answer = React.useMemo(() => {
-    switch (op) {
-      case "":
-        return "";
-      case "+":
-        return x + y;
-      case "-":
-        return x - y;
-      case "*":
-      case "x":
-        return x * y;
-      case "/":
-        return x / y;
-      default:
-        throw new Error("Invalid operation");
-    }
-  }, [x, y, op]);
+  let { x, setX, y, setY, op, setOp, answer } = useCalculator();
 
   return (
     <div>
@@ -46,7 +24,6 @@ export default function Index() {
 
       <h1>{data.message}</h1>
       <input
-        ref={ref}
         value={x}
         onChange={(e) =>
           setX(e.target.value == "" ? 0 : Number(e.target.value))
@@ -68,4 +45,39 @@ export default function Index() {
       <span>{answer}</span>
     </div>
   );
+}
+
+function useCalculator() {
+  let [x, setX] = React.useState(3);
+  let [y, setY] = React.useState(2);
+  let [op, setOp] = React.useState("+");
+
+  // Yes I know this doesn't need to be memoized don't @ me
+  let answer = React.useMemo(() => {
+    switch (op) {
+      case "":
+        return "";
+      case "+":
+        return x + y;
+      case "-":
+        return x - y;
+      case "*":
+      case "x":
+        return x * y;
+      case "/":
+        return x / y;
+      default:
+        throw new Error("Invalid operation");
+    }
+  }, [x, y, op]);
+
+  return {
+    x,
+    setX,
+    y,
+    setY,
+    op,
+    setOp,
+    answer,
+  };
 }
